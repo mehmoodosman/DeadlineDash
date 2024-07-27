@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync Duration Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Sync Duration Calculator</h1>
+    </header>
+    <main>
+        <form id="calculator-form">
+            <label for="date">Date (YYYY-MM-DD):</label>
+            <input type="date" id="date" name="date" required>
+            <label for="time">Time (HH:MM:SS):</label>
+            <input type="time" id="time" name="time" step="1" required>
+            <label for="timezone">Target Time Zone:</label>
+            <select id="timezone" name="timezone" required>
+                <option value="America/New_York">Eastern</option>
+                <option value="America/Chicago">Central</option>
+                <option value="America/Denver">Mountain</option>
+                <option value="America/Los_Angeles">Pacific</option>
+                <option value="America/Anchorage">Alaska</option>
+                <option value="Pacific/Honolulu">Hawaii</option>
+                <option value="Europe/London">London</option>
+                <option value="Europe/Paris">Paris</option>
+                <option value="Asia/Tokyo">Tokyo</option>
+                <option value="Australia/Sydney">Sydney</option>
+            </select>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="result"></div>
+    </main>
+    <script>
+        document.getElementById('calculator-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const targetTimezone = document.getElementById('timezone').value;
+            
+            fetch('/sync_duration', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ date, time, targetTimezone })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('result').innerText = `Error: ${data.error}`;
+                } else {
+                    document.getElementById('result').innerText = 
+                        `Time Difference: ${data.hours} hours, ${data.minutes} minutes, ${data.seconds} seconds
+                        \nLocal Time at Target: ${data.local_time_at_target}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerText = `Error: ${error.message}`;
+            });
+        });
+    </script>
+</body>
+</html>
