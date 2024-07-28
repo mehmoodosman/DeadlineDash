@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sync Duration Calculator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script src="../static/index.js"></script>
 </head>
+
 <body>
     <header>
         <h1>Sync Duration Calculator</h1>
@@ -34,13 +38,13 @@
         <div id="result"></div>
     </main>
     <script>
-        document.getElementById('calculator-form').addEventListener('submit', function(event) {
-            event.preventDefault(); 
+        document.getElementById('calculator-form').addEventListener('submit', function (event) {
+            event.preventDefault();
 
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
             const targetTimezone = document.getElementById('timezone').value;
-            
+
             fetch('/sync_duration', {
                 method: 'POST',
                 headers: {
@@ -48,26 +52,27 @@
                 },
                 body: JSON.stringify({ date, time, targetTimezone })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    document.getElementById('result').innerText = `Error: ${data.error}`;
-                } else {
-                    document.getElementById('result').innerText = 
-                        `Time Difference: ${data.hours} hours, ${data.minutes} minutes, ${data.seconds} seconds
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('result').innerText = `Error: ${data.error}`;
+                    } else {
+                        document.getElementById('result').innerText =
+                            `Time Difference: ${data.hours} hours, ${data.minutes} minutes, ${data.seconds} seconds
                         \nLocal Time at Target: ${data.local_time_at_target}`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('result').innerText = `Error: ${error.message}`;
-            });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText = `Error: ${error.message}`;
+                });
         });
     </script>
 </body>
+
 </html>
