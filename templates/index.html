@@ -1,25 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Damion" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="../static/reset.css">
+    <!-- <link rel="stylesheet" href="../static/styles.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="../static/resources/Deadline Dash Logo.png"> <!-- Update this with your actual favicon -->
+    <script src="../static/index.js"></script>
+    <title>TimeSync: Your Ultimate Productivity Tool</title>
 </head>
+
 <body>
-    <h1>Welcome to the Dashboard</h1>
-    <a href="{{ url_for('login') }}">Login Page</a><br>
-    <a href="{{ url_for('register') }}">Register Page</a><br>
-    
-    {% if current_user.is_authenticated %}
-        <p>You are logged in as {{ current_user.username }}.</p>
-        <a href="{{ url_for('logout') }}">Logout</a>
-    {% else %}
-        <p>Please log in or register to access the dashboard:</p>
-        <a href="{{ url_for('login') }}">Login</a> | 
-        <a href="{{ url_for('register') }}">Register</a>
-    {% endif %}
+    <!-- Header -->
+    <header>
+        <div class="content">
+            <a href="index.html" class="desktop logo">TimeSync</a>
+            <nav class="desktop">
+                <ul>
+                    <li><a href="#features-section">Features</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                </ul>
+            </nav>
+            <nav class="mobile">
+                <ul>
+                    <li class="logo"><a href="#"><img src="../static/resources/Deadline Dash Logo.svg"></a></li>
+                    <li><a href="{{ url_for('login' )}}" class="button">Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="button">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Sign Up Section -->
+        <div id="sign-up-section" class="banner">
+            <div id="sign-up-cta">
+                <div class="content center">
+                    <div class="header">
+                        <h2 class="striking"><strong>TimeSync:</strong> Your Ultimate Productivity Tool</h2>
+                        <p>Effortlessly manage and sync all your deadlines in one place. Stay on top of
+                            your tasks and never miss a deadline again</p>
+                    </div>
+                    <div class="email">
+                        <div class="button">Start Syncing Deadlines</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div id="features-section">
+            <div class="feature">
+                <div class="center">
+                    <div class="image-container">
+                        <img src="../static/resources/feature1.jpg" />
+                    </div>
+                    <div class="content">
+                        <h2>Seamless Syncing</h2>
+                        <h3>Sync all your deadlines from various sources into one unified platform</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="center">
+                    <div class="image-container">
+                        <img src="../static/resources/feature-22.jpg" />
+                    </div>
+                    <div class="content">
+                        <h2>User-Friendly Interface</h2>
+                        <h3>An intuitive and easy-to-use interface designed to enhance your productivity</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer>
+            <div class="content">
+                <span class="copyright">© 2024 TimeSync, All Rights Reserved</span>
+                <span class="location">Designed for HeadStarter Hackathon</span>
+            </div>
+        </footer>
+
+    </div>
 </body>
+
 </html>
-
-
