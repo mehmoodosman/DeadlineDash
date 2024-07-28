@@ -13,5 +13,9 @@
             "dest":"/"
         }
     ],
+    "env": {
+        "DATABASE_URL": "@database_url",
+        "SECRET_KEY": "@secret_key"
+      },
     "buildCommand": "python create_db.py"
 }
