@@ -8,7 +8,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 import pytz
-import tzlocal 
+import tzlocal
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -103,6 +103,7 @@ def register():
 
     return render_template('register.html', form=form)
 
+
 @app.route('/sync_duration', methods=['POST'])
 def sync_duration():
     data = request.json
@@ -110,24 +111,24 @@ def sync_duration():
     time_str = data.get('time')
     target_timezone_str = data.get('targetTimezone')
 
-    if len(time_str) == 5:  
-        time_str += ":00"  
+    if len(time_str) == 5:
+        time_str += ":00"
 
-   
-    local_tz = tzlocal.get_localzone()  
+    local_tz = tzlocal.get_localzone()
     local_now = datetime.now(local_tz)
 
     try:
-        target_datetime = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %H:%M:%S")
+        target_datetime = datetime.strptime(
+            f"{date_str} {time_str}", "%Y-%m-%d %H:%M:%S")
         target_tz = pytz.timezone(target_timezone_str)
         target_time = target_tz.localize(target_datetime, is_dst=None)
-        
+
         target_time_utc = target_time.astimezone(pytz.utc)
-        
+
         current_utc_time = datetime.now(pytz.utc)
         local_time_at_target = target_time_utc.astimezone(local_tz)
         local_time_str = local_time_at_target.strftime("%Y-%m-%d %H:%M:%S")
-        
+
         time_difference = target_time_utc - current_utc_time
         total_seconds = int(time_difference.total_seconds())
         hours, remainder = divmod(total_seconds, 3600)
@@ -141,7 +142,3 @@ def sync_duration():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
