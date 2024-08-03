@@ -20,7 +20,7 @@ app = Flask(__name__)
 # Retrieve configurations from environment variables
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///default.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'defaultsecretkey')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'HeadStarterHackathonProject')
 
 
 db = SQLAlchemy(app)
